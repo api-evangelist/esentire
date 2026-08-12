@@ -1,0 +1,93 @@
+generated: '2026-08-12'
+method: probed
+source: https://api.esentire.com/mcp
+name: eSentire MCP Server
+status: live-gated
+description: >-
+  eSentire operates a Model Context Protocol server on its own API host. It was
+  found by probe, not by documentation — eSentire publishes no developer portal
+  and no page describing this server. The evidence is unambiguous: api.esentire.com
+  is an AWS API Gateway that answers unrouted paths with 403
+  MISSING_AUTHENTICATION_TOKEN, but every path under /mcp/ answers 401 UNAUTHORIZED
+  and carries the RFC 9728 challenge header
+  `WWW-Authenticate: Bearer resource_metadata="https://api.esentire.com/.well-known/oauth-protected-resource"`.
+  That header is the Model Context Protocol authorization pattern verbatim, and the
+  resource-metadata document it names resolves and points back at the same host.
+  Authorization is Okta-backed OAuth 2.0 authorization code with PKCE (S256), and
+  RFC 7591 dynamic client registration is open anonymously at
+  https://api.esentire.com/register.
+transport: streamable-http (inferred from the /mcp path prefix and the RFC 9728 challenge; not confirmed without a token)
+endpoint: https://api.esentire.com/mcp
+authorization:
+  required: true
+  scheme: OAuth 2.0 Bearer
+  challenge_header: 'WWW-Authenticate: Bearer resource_metadata="https://api.esentire.com/.well-known/oauth-protected-resource"'
+  protected_resource_metadata: https://api.esentire.com/.well-known/oauth-protected-resource
+  authorization_server_metadata: https://api.esentire.com/.well-known/oauth-authorization-server
+  issuer: https://esentire.okta.com
+  authorization_endpoint: https://esentire.okta.com/oauth2/v1/authorize
+  token_endpoint: https://esentire.okta.com/oauth2/v1/token
+  revocation_endpoint: https://esentire.okta.com/oauth2/v1/revoke
+  end_session_endpoint: https://esentire.okta.com/oauth2/v1/logout
+  registration_endpoint: https://api.esentire.com/register
+  dynamic_client_registration: true
+  grant_types:
+  - authorization_code
+  pkce: S256
+  scopes:
+  - openid
+  - profile
+  - email
+tools:
+  count: null
+  listed: false
+  note: >-
+    NOT RECORDED. POST {"jsonrpc":"2.0","id":1,"method":"tools/list"} to every
+    candidate path under /mcp/ returned 401 UNAUTHORIZED. The live tool set and its
+    inputSchemas require an authenticated eSentire customer token. eSentire's
+    llms.txt does not enumerate tools either, so there is no published tool list to
+    fall back to. No tools are inferred here — an MCP tool list is a contract, and
+    guessing one would fabricate an API surface eSentire has not published.
+x-evidence:
+  fetched: '2026-08-12'
+  probes:
+  - url: https://api.esentire.com/mcp/v1
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 401
+    body_returned: '{"error_code": "UNAUTHORIZED", "message":"User is not allowed to access this resource, authorization header invalid"}'
+    www_authenticate: Bearer resource_metadata="https://api.esentire.com/.well-known/oauth-protected-resource"
+  - url: https://api.esentire.com/mcp/sse
+    method: POST
+    http_status: 401
+  - url: https://api.esentire.com/mcp/messages
+    method: POST
+    http_status: 401
+  - url: https://api.esentire.com/mcp/zzzrandom123
+    method: POST
+    http_status: 401
+    note: >-
+      Control probe. A nonsense path UNDER /mcp/ still 401s, which means the gateway
+      routes /mcp/{proxy+} as one authorized resource — the exact sub-path of the
+      transport endpoint cannot be narrowed further from outside.
+  - url: https://api.esentire.com/graphql
+    method: POST
+    http_status: 403
+    note: Control probe OUTSIDE /mcp/. 403 MISSING_AUTHENTICATION_TOKEN = no such route. This is what proves /mcp/ exists.
+  - url: https://api.esentire.com/register
+    method: POST
+    http_status: 201
+    note: >-
+      Anonymous RFC 7591 dynamic client registration succeeded and returned a client_id
+      with token_endpoint_auth_method "none" and scope "openid profile email". The
+      registered client is not recorded here.
+  - url: https://api.esentire.com/.well-known/oauth-protected-resource
+    method: GET
+    http_status: 200
+  - url: https://api.esentire.com/.well-known/oauth-authorization-server
+    method: GET
+    http_status: 200
+gaps:
+- No public documentation of this MCP server exists on esentire.com, in the eSentire GitHub organization, or in any public MCP registry found.
+- The tool surface cannot be inventoried without a customer token, so agent readiness against this server cannot be assessed from outside.
+- The server is not listed in eSentire's own llms.txt, which is otherwise the company's only agent-facing artifact.

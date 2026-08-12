@@ -1,0 +1,127 @@
+generated: '2026-08-12'
+method: probed
+source: https://api.esentire.com/.well-known/oauth-authorization-server
+name: eSentire standards conformance
+description: >-
+  Which cross-cutting standards the eSentire public surface actually conforms to,
+  each with the evidence that settles it. The authorization stack conforms
+  unusually well for a provider with no developer documentation — RFC 8414, RFC
+  9728, RFC 7591 and PKCE are all correctly implemented — while everything at the
+  API-contract layer (OpenAPI, RFC 9457, pagination, idempotency) is absent. The
+  compliance-certification set is recorded separately in
+  security/esentire-trust-center.yml.
+standards:
+- id: oauth2
+  name: OAuth 2.0 (RFC 6749)
+  conforms: true
+  evidence: >-
+    Authorization-code grant with Okta as issuer, advertised at
+    https://api.esentire.com/.well-known/oauth-authorization-server and enforced by
+    a 401 Bearer challenge on /mcp/*.
+- id: rfc8414
+  name: OAuth 2.0 Authorization Server Metadata (RFC 8414)
+  conforms: true
+  evidence: 'https://api.esentire.com/.well-known/oauth-authorization-server returns 200 application/json with issuer, authorization_endpoint, token_endpoint, revocation_endpoint, registration_endpoint, response_types_supported, grant_types_supported, code_challenge_methods_supported.'
+- id: rfc9728
+  name: OAuth 2.0 Protected Resource Metadata (RFC 9728)
+  conforms: true
+  evidence: >-
+    https://api.esentire.com/.well-known/oauth-protected-resource returns 200 with
+    resource, authorization_servers and scopes_supported, and is correctly named in
+    the WWW-Authenticate challenge on 401 responses from /mcp/*.
+- id: rfc7591
+  name: OAuth 2.0 Dynamic Client Registration (RFC 7591)
+  conforms: true
+  evidence: 'POST https://api.esentire.com/register returned 201 with client_id, grant_types, redirect_uris, response_types, scope and token_endpoint_auth_method.'
+- id: rfc7636
+  name: PKCE (RFC 7636)
+  conforms: true
+  evidence: 'code_challenge_methods_supported: ["S256"] — S256 only, plain not offered.'
+- id: oidc
+  name: OpenID Connect Core
+  conforms: partial
+  evidence: >-
+    openid/profile/email scopes and standard OIDC claims (ver, jti, iss, aud, iat,
+    exp, cid, uid, scp, sub) plus end_session_endpoint are advertised, but
+    /.well-known/openid-configuration is NOT served (403) — the OIDC discovery
+    document required by the spec is missing, so the metadata arrives only via the
+    OAuth 2.0 document.
+- id: mcp
+  name: Model Context Protocol — authorization
+  conforms: true
+  evidence: >-
+    The RFC 9728 resource_metadata challenge on 401 is the MCP authorization
+    specification's required discovery mechanism, implemented correctly. The
+    protocol layer itself (initialize, tools/list) could not be evaluated — it is
+    token-gated.
+- id: rfc9116
+  name: security.txt (RFC 9116)
+  conforms: false
+  evidence: 404 on www.esentire.com/.well-known/security.txt and /security.txt; 403 on api.esentire.com. No host serves one.
+- id: openapi
+  name: OpenAPI
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document is published. /openapi.json, /openapi.yaml,
+    /swagger.json, /v1/openapi.json, /api-docs, /docs, /redoc and
+    /swagger/v1/swagger.json all 403 on api.esentire.com; atlas.esentire.com returns
+    an SPA shell for all of them; there is no docs or developer subdomain.
+- id: graphql
+  name: GraphQL
+  conforms: false
+  evidence: /graphql 403 on api.esentire.com, 404 on www.esentire.com, 403 (WAF) on atlas.esentire.com. No GraphQL surface.
+- id: asyncapi
+  name: AsyncAPI
+  conforms: false
+  evidence: No event, streaming or webhook specification is published. N/A rather than a failure — no public event surface exists to describe.
+- id: rfc9457
+  name: Problem Details for HTTP APIs (RFC 9457)
+  conforms: false
+  evidence: 'Observed error bodies are application/json {"error_code": ..., "message": ...} with no type/title/status/detail/instance and no application/problem+json content type.'
+- id: rfc8594
+  name: Sunset header (RFC 8594)
+  conforms: false
+  evidence: No Sunset or Deprecation header observed; no deprecation policy published.
+- id: idempotency
+  name: Idempotency keys
+  conforms: false
+  evidence: No idempotency header or retry-safety statement is documented or observable.
+- id: pagination
+  name: Documented pagination
+  conforms: false
+  evidence: No paginated response is reachable anonymously and none is documented.
+- id: a2a
+  name: A2A Agent Card
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json probed on
+    www.esentire.com (404), api.esentire.com (403), atlas.esentire.com (200 HTML SPA
+    shell — rejected) and partner.esentire.com (403). No agent card is served.
+compliance_certifications:
+  see: security/esentire-trust-center.yml
+  summary: SOC 2 Type II, ISO/IEC 27001:2022 (IS735163), PCI DSS 4.0.1, HIPAA, GDPR, CCPA, PIPEDA, DORA, CIS Controls v8.1, Shared Assessments SIG.
+summary:
+  conforms: 6
+  partial: 1
+  does_not_conform: 9
+  note: >-
+    The pattern is consistent and worth stating plainly: eSentire's identity and
+    authorization layer is standards-correct and machine-discoverable, and its API
+    contract layer does not exist publicly at all.
+x-evidence:
+  fetched: '2026-08-12'
+  urls:
+  - url: https://api.esentire.com/.well-known/oauth-authorization-server
+    status: 200
+  - url: https://api.esentire.com/.well-known/oauth-protected-resource
+    status: 200
+  - url: https://api.esentire.com/register
+    status: 201
+  - url: https://api.esentire.com/mcp/v1
+    status: 401
+  - url: https://api.esentire.com/openapi.json
+    status: 403
+  - url: https://api.esentire.com/graphql
+    status: 403
+  - url: https://www.esentire.com/.well-known/security.txt
+    status: 404

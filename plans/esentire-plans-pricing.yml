@@ -1,0 +1,61 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.esentire.com/cybersecurity-tools/mdr-package-selector
+name: eSentire plans and pricing
+plan_count: 0
+pricing_model: contact-sales
+currency: null
+description: >-
+  eSentire publishes no prices. There is no pricing page — https://www.esentire.com/pricing
+  returns 404 — and no self-service sign-up for the API or the platform. The closest
+  published artifact is an interactive "Build Your eSentire MDR Package" selector,
+  which lets a prospect assemble a service bundle (MDR for Endpoint, Network, Log,
+  Cloud, Identity; DFIR; CTEM/Exposure Management) and then routes to a
+  speak-with-an-expert form. It attaches no price, no quota, and no tier to any
+  selection. Service scope and inclusions are published in far more detail at
+  contracts.esentire.com, the public services catalogue — but that catalogue is a
+  description of what each service does, not a rate card. This is enterprise
+  contract sales end to end: the commercial terms for the API, including whether it
+  is included in a subscription or priced separately, are not discoverable without
+  talking to eSentire.
+plans: []
+api_pricing:
+  published: false
+  metered: unknown
+  included_in_subscription: unknown
+  note: >-
+    Nothing published states whether API or MCP access is included with an MDR
+    subscription, gated to particular service tiers, or priced separately.
+free_tier:
+  present: false
+trial:
+  present: false
+  note: No trial, sandbox, or free evaluation of the API is offered publicly.
+sign_up:
+  self_service: false
+  url: https://www.esentire.com/get-started
+  note: A contact/qualification form, not an account sign-up.
+package_selector:
+  url: https://www.esentire.com/cybersecurity-tools/mdr-package-selector
+  prices_shown: false
+services_catalogue:
+  url: https://contracts.esentire.com/esentire-services-catalogue
+  note: >-
+    Public, detailed, and genuinely useful for understanding service scope
+    (e.g. eSentire MDR for Log with Sumo Logic, Managed Vulnerability Service). Contains
+    no pricing.
+gaps:
+- No pricing page of any kind, at any level of detail.
+- No published statement of whether API/MCP access carries a cost or is contract-inclusive.
+- No self-service sign-up, trial, or free tier, so the API cannot be evaluated without a sales conversation.
+x-evidence:
+  fetched: '2026-08-12'
+  urls:
+  - url: https://www.esentire.com/pricing
+    status: 404
+  - url: https://www.esentire.com/cybersecurity-tools/mdr-package-selector
+    status: 200
+  - url: https://www.esentire.com/get-started
+    status: 200
+  - url: https://contracts.esentire.com/
+    status: 200

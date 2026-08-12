@@ -1,0 +1,78 @@
+generated: '2026-08-12'
+method: searched
+source: https://pypi.org/pypi/cymon/json
+name: eSentire client libraries
+description: >-
+  eSentire ships no current client library for any of its APIs. The registries were
+  searched directly (npm search + registry metadata, PyPI JSON API, and the eSentire
+  GitHub organization's 33 repositories) and exactly one first-party package exists
+  — `cymon` on PyPI — which wraps Cymon.io, a threat-intelligence service eSentire
+  acquired and then shut down. Its only release is from 2015. It is recorded here
+  because it is genuinely first-party and its date is the finding, not because it is
+  usable. No SDK exists for the current eSentire API or for the MCP server, and no
+  `SDKs` pointer is emitted for this repo: crediting eSentire with an SDK on the
+  strength of an eleven-year-old wrapper for a decommissioned product would be
+  false credit.
+package_count: 1
+official_count: 1
+current_count: 0
+packages:
+- name: cymon
+  language: python
+  registry: pypi
+  url: https://pypi.org/project/cymon/
+  repository: https://github.com/eSentire/cymon-python
+  official: true
+  status: retired
+  version: '0.1'
+  published: '2015-07-04'
+  releases: 1
+  author: Roy Firestein
+  license: null
+  wraps: Cymon.io threat intelligence API
+  note: >-
+    First and only release, 2015-07-04. Wraps Cymon.io, which eSentire operated and
+    then discontinued; the source repository github.com/eSentire/cymon-python is
+    archived, as is the companion documentation repo github.com/eSentire/cymon-api-docs.
+    This package does not target any API eSentire operates today.
+registries_searched:
+- registry: npm
+  query: esentire
+  result: no first-party packages
+  note: 'Also probed by exact name: `esentire` 404, `esentire-mcp` 404, `@esentire/mcp` 404.'
+- registry: pypi
+  result: 1 first-party package (cymon)
+  note: '`esentire` 404, `esentire-sdk` 404.'
+- registry: github
+  org: https://github.com/eSentire
+  result: >-
+    33 public repositories, 32 of them archived. The only actively-updated repo is
+    `iocs` (Python, last push 2026-05-28, 63 stars) — a published indicator-of-compromise
+    dataset from the Threat Response Unit, not a client library. `yara-rules` (last
+    push 2025-05-11) is likewise rule content, not code that calls an API.
+- registry: maven-central
+  result: no first-party packages
+- registry: nuget
+  result: no first-party packages
+- registry: rubygems
+  result: no first-party packages
+- registry: packagist
+  result: no first-party packages
+- registry: crates.io
+  result: no first-party packages
+- registry: pkg.go.dev
+  result: no first-party packages
+gaps:
+- No client library exists for the current eSentire API on any registry.
+- No SDK, wrapper, or reference client is published for the MCP server at api.esentire.com/mcp.
+- The one first-party package on any registry has not been released since 2015 and targets a shut-down product.
+x-evidence:
+  fetched: '2026-08-12'
+  urls:
+  - url: https://pypi.org/pypi/cymon/json
+    status: 200
+  - url: https://registry.npmjs.org/-/v1/search?text=esentire&size=20
+    status: 200
+    note: zero results
+  - url: https://api.github.com/orgs/eSentire/repos?per_page=100
+    status: 200

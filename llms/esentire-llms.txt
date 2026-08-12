@@ -1,0 +1,51 @@
+<h1>LLMs Text File</h1>
+User-Agent: *
+Allow: /
+
+# eSentire
+
+> eSentire is the Authority in Managed Detection and Response (MDR), 
+> protecting mid-market and enterprise organizations from cyberattacks 
+> 24/7/365. Founded in 2001, eSentire combines AI-driven technology 
+> with elite threat hunters to detect and respond to threats before 
+> they impact business.
+
+## Core Services
+- [Managed Detection and Response (MDR)](https://www.esentire.com/what-we-do/esentire-managed-detection-and-response): 24/7 threat detection, investigation, and response across endpoint, network, log, and cloud.
+- [Digital Forensics & Incident Response (DFIR)](https://www.esentire.com/what-we-do/digital-forensics-and-incident-response): Rapid response and investigation for active breaches.
+- [Continuous Threat Exposure Management (CTEM)](https://www.esentire.com/what-we-do/preempt-offensive-security): CTEM and advisory programs that identify security gaps and build proactive strategies to address them.
+
+## Technology Platform
+- [eSentire Atlas Security Operations Platform](https://www.esentire.com/what-we-do/security-operations-platform): Task-specific Atlas Agents investigate threats at machine speed with full transparency, expert validation, and explainable outcomes you can trust.
+
+## Industries Served
+- [Insurance](https://www.esentire.com/how-we-do-it/industries/insurance-cybersecurity)
+- [Construction](https://www.esentire.com/how-we-do-it/industries/construction-cybersecurity)
+- [Finance](https://www.esentire.com/how-we-do-it/industries/financial-services-cybersecurity)
+- [Legal](https://www.esentire.com/how-we-do-it/industries/legal-cybersecurity)
+- [Manufacturing](https://www.esentire.com/how-we-do-it/industries/manufacturing-cybersecurity)
+- [Private Equity](https://www.esentire.com/how-we-do-it/industries/private-equity-cybersecurity)
+- [Healthcare](https://www.esentire.com/how-we-do-it/industries/healthcare-cybersecurity)
+- [Retail](https://www.esentire.com/how-we-do-it/industries/retail-cybersecurity)
+- [Food Supply](https://www.esentire.com/how-we-do-it/industries/food-supply-cybersecurity)
+- [Government and Education](https://www.esentire.com/how-we-do-it/industries/state-local-governments-cybersecurity)
+- [Automotive Dealerships](https://www.esentire.com/how-we-do-it/industries/automotive-dealerships)
+
+## Research & Threat Intelligence
+- [TRU Intelligence Center](https://www.esentire.com/resources/tru-intelligence-center): Original threat research from eSentire's Threat Response Unit (TRU).
+- [Security Advisories](https://www.esentire.com/resources/security-advisories): Active threat and vulnerability advisories.
+- [Blog](https://www.esentire.com/resources/blog): Cybersecurity insights, trends, and expert analysis.
+- [Resource Library](https://www.esentire.com/resources/library): Whitepapers, reports, and data sheets.
+
+## Company
+- [About eSentire](https://www.esentire.com/company/about-us)
+- [Leadership](https://www.esentire.com/company/leadership)
+- [Newsroom](https://www.esentire.com/company/newsroom)
+- [Careers](https://www.esentire.com/company/careers)
+- [Partners](https://www.esentire.com/partners)
+
+## Key Differentiators
+- Only MDR provider with a guaranteed 15-minute mean time to contain (MTTC)
+- 24/7 Security Operations Centers (SOCs) staffed by elite threat hunters
+- 2,000+ customers across 80+ countries
+- Named a Leader in Forrester Wave for MDR

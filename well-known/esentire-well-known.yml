@@ -1,0 +1,151 @@
+generated: '2026-08-12'
+method: probed
+source: https://api.esentire.com/.well-known/oauth-authorization-server
+name: eSentire well-known probe
+description: >-
+  Result of probing the RFC 8615 /.well-known/ namespace on every eSentire host
+  reachable without credentials. Two paths return real documents, both on the API
+  host: RFC 8414 OAuth 2.0 Authorization Server Metadata and RFC 9728 OAuth 2.0
+  Protected Resource Metadata. Both are the discovery documents the MCP
+  authorization flow depends on, and both were saved verbatim. Everything else
+  missed. Two hosts are recorded as SPA catch-alls: atlas.esentire.com (the Atlas
+  / Insight portal, which insight.esentire.com now redirects to) answers 200 with
+  an identical 2,151-byte HTML shell for every path including /.well-known/agent-card.json,
+  and trust.esentire.com does the same with a 1,083-byte shell. Neither is a
+  document; both are recorded as misses so the shell is never miscounted as a hit.
+hosts:
+- host: api.esentire.com
+  note: AWS API Gateway. Unrouted paths answer 403 MISSING_AUTHENTICATION_TOKEN.
+  probes:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: esentire-oauth-authorization-server.json
+    hit: true
+    note: >-
+      RFC 8414 metadata. issuer https://esentire.okta.com, authorization_code grant
+      only, PKCE S256 required, registration_endpoint https://api.esentire.com/register.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: esentire-oauth-protected-resource.json
+    hit: true
+    note: >-
+      RFC 9728 metadata. resource https://api.esentire.com, authorization_servers
+      [https://api.esentire.com], scopes_supported [openid, profile, email]. This is
+      the document named in the WWW-Authenticate challenge returned by /mcp/*.
+  - path: /.well-known/security.txt
+    status: 403
+    hit: false
+  - path: /.well-known/openid-configuration
+    status: 403
+    hit: false
+  - path: /.well-known/api-catalog
+    status: 403
+    hit: false
+  - path: /.well-known/ai-plugin.json
+    status: 403
+    hit: false
+  - path: /.well-known/agent-card.json
+    status: 403
+    hit: false
+  - path: /.well-known/agent.json
+    status: 403
+    hit: false
+- host: www.esentire.com
+  note: Craft CMS marketing site. Serves a real /llms.txt (see llms/) but nothing under /.well-known/.
+  probes:
+  - path: /.well-known/security.txt
+    status: 404
+    hit: false
+  - path: /.well-known/openid-configuration
+    status: 404
+    hit: false
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    hit: false
+  - path: /.well-known/api-catalog
+    status: 404
+    hit: false
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    hit: false
+  - path: /.well-known/agent-card.json
+    status: 404
+    hit: false
+  - path: /.well-known/agent.json
+    status: 404
+    hit: false
+  - path: /security.txt
+    status: 404
+    hit: false
+- host: atlas.esentire.com
+  note: >-
+    Atlas / Insight customer portal (insight.esentire.com 302s here). Single-page-app
+    catch-all — every path below returned 200 with the same 2,151-byte HTML shell,
+    including /openapi.json and /swagger.json. Recorded as misses, not hits.
+  probes:
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA shell, not an AgentCard. Rejected.
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA shell. Rejected.
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA shell. Rejected.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA shell. Rejected.
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA shell. Rejected.
+  - path: /llms.txt
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA shell. Rejected.
+- host: partner.esentire.com
+  note: Gated partner portal (partners.esentire.com 302s here). WAF answers 403 text/xml to every probe.
+  probes:
+  - path: /.well-known/agent-card.json
+    status: 403
+    hit: false
+  - path: /.well-known/security.txt
+    status: 403
+    hit: false
+  - path: /llms.txt
+    status: 403
+    hit: false
+- host: trust.esentire.com
+  note: >-
+    UpGuard-hosted trust center. SPA catch-all returns 200 with a 1,083-byte HTML
+    shell for arbitrary paths. Its real public JSON lives at
+    /api/trustpage/public/v1/ and is captured in security/esentire-trust-center.yml.
+  probes:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA shell. Rejected.
+summary:
+  paths_probed: 41
+  real_documents: 2
+  security_txt: false
+  openid_configuration: false
+  api_catalog: false
+  agent_card: false
+  note: >-
+    WellKnown pointer emitted because two paths returned real documents. No
+    SecurityTxt pointer: no host serves an RFC 9116 security.txt. No AgentCard:
+    the only 200s on the agent-card paths were SPA HTML shells.

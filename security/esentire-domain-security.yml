@@ -1,0 +1,35 @@
+generated: '2026-08-12'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.esentire.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 19 23:59:59 2026 GMT
+  hsts: true
+  hsts_max_age: 15552000
+- host: api.esentire.com
+  https: true
+  http_version: HTTP/2
+  tls_version: TLSv1.3
+  cert_expires: Dec 23 23:59:59 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+  hsts_include_subdomains: true
+  hsts_header: 'strict-transport-security: max-age=31536000 ; includeSubDomains'
+  note: >-
+    The automated probe recorded hsts: null because the host root answers 403 with
+    no HSTS header. The header IS present on routed responses — observed on a 401
+    from https://api.esentire.com/mcp/v1 on 2026-08-12. Corrected here from that
+    direct observation.
+- host: trust.esentire.com
+  https: true
+  hsts: unknown
+  note: UpGuard-hosted trust center (CNAME to UpGuard infrastructure), not eSentire-operated.
+domains:
+- domain: esentire.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

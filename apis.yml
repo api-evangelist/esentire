@@ -1,23 +1,110 @@
 aid: esentire
-name: Esentire
-description: 'Esentire is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+name: eSentire
+description: 'eSentire, Inc. is a Waterloo, Ontario-headquartered cybersecurity company
+  and, in its own words, "the Authority in Managed Detection and Response (MDR)".
+  Founded in 2001, it protects 2,000+ organizations across 80+ countries and 35 industries
+  with 24/7/365 Managed Detection and Response, Digital Forensics and Incident Response
+  (DFIR), and Continuous Threat Exposure Management (CTEM), delivered from its own
+  Atlas Security Operations Platform and staffed Security Operations Centers. Its
+  public machine-readable surface is narrow but real: an llms.txt at the marketing
+  host, an OAuth 2.0 authorization-server and protected-resource metadata pair at
+  api.esentire.com, and an authorization-gated MCP server behind that same host.
+  There is no public OpenAPI, GraphQL schema, or developer portal — the API and the
+  Atlas/Insight portal are reachable only by contracted customers and partners.'
 url: https://raw.githubusercontent.com/api-evangelist/esentire/refs/heads/main/apis.yml
+image: https://storage.googleapis.com/vendor-risk-production-default-bucket/eSentire-Navy-1000x1000.png_b7cac947-6768-4bd5-9fa7-98997a9e13f7
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-12'
 modified: '2026-08-12'
 tags:
 - Company
-apis: []
+- Security
+- Cybersecurity
+- Managed Detection and Response
+- Threat Intelligence
+- Incident Response
+- Model Context Protocol
+- Agents
+- OAuth
+- SaaS
+apis:
+- aid: esentire-mcp
+  name: eSentire MCP Server
+  description: 'An authorization-gated Model Context Protocol server operated by eSentire
+    on its own API host. Every path under https://api.esentire.com/mcp/ answers 401
+    UNAUTHORIZED with an RFC 9728 challenge (`WWW-Authenticate: Bearer resource_metadata="https://api.esentire.com/.well-known/oauth-protected-resource"`),
+    while paths outside that prefix answer 403 MISSING_AUTHENTICATION_TOKEN — which
+    is how the route family was confirmed to exist. Authorization is Okta-backed
+    OAuth 2.0 authorization code + PKCE, with anonymous RFC 7591 dynamic client
+    registration live at https://api.esentire.com/register. The tool list is not
+    readable without a customer token, so no tool inventory is recorded here.'
+  humanURL: https://www.esentire.com/what-we-do/security-operations-platform
+  baseURL: https://api.esentire.com/mcp
+  tags:
+  - Model Context Protocol
+  - Agents
+  - Security
+  properties:
+  - type: MCPServer
+    url: mcp/esentire-mcp.yml
+  - type: Authentication
+    url: authentication/esentire-authentication.yml
+  - type: OAuthScopes
+    url: scopes/esentire-scopes.yml
+  - type: ErrorCatalog
+    url: errors/esentire-problem-types.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/esentire-domain-security.yml
 - type: Website
+  url: https://www.esentire.com/
+- type: SecondaryMarket
   url: https://www.hiive.com/securities/esentire-stock
+- type: Blog
+  url: https://www.esentire.com/resources/blog
+- type: GitHubOrganization
+  url: https://github.com/eSentire
+- type: SignUp
+  url: https://www.esentire.com/get-started
+- type: Login
+  url: https://atlas.esentire.com/
+- type: TermsOfService
+  url: https://www.esentire.com/legal/terms-and-conditions
+- type: PrivacyPolicy
+  url: https://www.esentire.com/legal/privacy-policy
+- type: TrustCenter
+  url: https://trust.esentire.com/
+- type: Compliance
+  url: security/esentire-trust-center.yml
+- type: Security
+  url: security/esentire-vulnerability-disclosure.yml
+- type: VulnerabilityDisclosure
+  url: security/esentire-vulnerability-disclosure.yml
+- type: LLMsTxt
+  url: llms/esentire-llms.txt
+- type: WellKnown
+  url: well-known/esentire-well-known.yml
+- type: Conformance
+  url: conformance/esentire-conformance.yml
+- type: Conventions
+  url: conventions/esentire-conventions.yml
+- type: Lifecycle
+  url: lifecycle/esentire-lifecycle.yml
+- type: Packages
+  url: packages/esentire-packages.yml
+- type: Plans
+  url: plans/esentire-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/esentire-rate-limits.yml
+x-enrichment:
+  date: '2026-08-12'
+  status: enriched
+  artifacts_added: 17
+  pass: local-v1

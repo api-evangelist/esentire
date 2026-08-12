@@ -1,0 +1,49 @@
+generated: '2026-08-12'
+method: probed
+source: https://api.esentire.com/mcp/v1
+name: eSentire rate limits
+limit_count: 0
+description: >-
+  eSentire publishes no rate limits, and none could be observed. There is no
+  developer documentation to read them from, and the API host emits no rate-limit
+  headers on any response reachable without a token. Response headers on both the
+  403 and the 401 were inspected directly: the full set is date, content-type,
+  content-length, x-amzn-requestid, strict-transport-security, x-amzn-errortype,
+  x-amz-apigw-id and (on 401) www-authenticate. No RateLimit-*, X-RateLimit-*,
+  Retry-After, or quota header of any kind is present. Whatever throttling AWS API
+  Gateway applies behind the authorization boundary is not signalled to the client
+  at the boundary.
+limits: []
+headers:
+  standard_ratelimit: false
+  x_ratelimit: false
+  retry_after: false
+  observed_headers:
+  - date
+  - content-type
+  - content-length
+  - x-amzn-requestid
+  - strict-transport-security
+  - x-amzn-errortype
+  - x-amz-apigw-id
+  - www-authenticate
+  note: >-
+    A 429 was never induced and is not asserted. The exhaustion status code is
+    unknown; AWS API Gateway's default is 429 with
+    {"message":"Too Many Requests"}, but that is a platform default, not something
+    eSentire has published, so it is not recorded as a finding.
+exhaustion_status: unknown
+scope: unknown
+gaps:
+- No published rate limits, quotas, or throttling policy.
+- No rate-limit response headers at the authorization boundary, so an agent cannot back off on a documented signal.
+- No documented retry or backoff guidance.
+x-evidence:
+  fetched: '2026-08-12'
+  urls:
+  - url: https://api.esentire.com/mcp/v1
+    status: 401
+    note: Full response headers inspected; no rate-limit headers present.
+  - url: https://api.esentire.com/
+    status: 403
+    note: Full response headers inspected; no rate-limit headers present.

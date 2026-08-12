@@ -1,0 +1,85 @@
+generated: '2026-08-12'
+method: probed
+source: https://api.esentire.com/
+name: eSentire API error envelope
+format: custom-json
+rfc9457: false
+description: >-
+  eSentire publishes no error reference, so this catalogue is built only from
+  responses observed live and anonymously against api.esentire.com. It covers the
+  authorization boundary and nothing past it — every error reachable without a
+  token. The envelope is a flat JSON object with two fields, `error_code` (an
+  UPPER_SNAKE_CASE symbol) and `message` (prose). It is not RFC 9457
+  application/problem+json: there is no `type`, `title`, `status`, `detail`, or
+  `instance`, and the Content-Type is application/json.
+envelope:
+  content_type: application/json
+  shape:
+    error_code: string, UPPER_SNAKE_CASE symbolic code
+    message: string, human-readable prose
+  example_observed: '{"error_code": "UNAUTHORIZED", "message":"User is not allowed to access this resource, authorization header invalid"}'
+  correlation:
+    header: x-amzn-requestid
+    note: >-
+      Every response carries an AWS API Gateway request id in `x-amzn-requestid`
+      (and `x-amz-apigw-id`). These are the only tracing identifiers available to a
+      caller; eSentire does not document them as support correlation ids.
+problem_types:
+- code: MISSING_AUTHENTICATION_TOKEN
+  status: 403
+  message: Missing Authentication Token
+  meaning: >-
+    The AWS API Gateway default for a path that is not routed, or a routed path
+    called with a method it does not accept. In practice on this host it means "no
+    such endpoint" rather than "you forgot to authenticate", which makes it
+    misleading as an authentication signal.
+  remediation: Check the path and HTTP method. This is not fixed by supplying a token.
+  observed_on:
+  - https://api.esentire.com/
+  - https://api.esentire.com/openapi.json
+  - https://api.esentire.com/graphql
+  - https://api.esentire.com/mcp
+  method: probed
+- code: UNAUTHORIZED
+  status: 401
+  message: User is not allowed to access this resource, authorization header invalid
+  meaning: >-
+    The path exists and is protected. Returned for every path under /mcp/ when no
+    valid bearer token is presented.
+  remediation: >-
+    Obtain an OAuth 2.0 access token via the authorization-code + PKCE flow at
+    https://esentire.okta.com/oauth2/v1/authorize and present it as
+    `Authorization: Bearer <token>`. The 401 carries a
+    `WWW-Authenticate: Bearer resource_metadata=...` header pointing at
+    https://api.esentire.com/.well-known/oauth-protected-resource, which is the
+    machine-readable route to the correct authorization server.
+  headers:
+    www_authenticate: Bearer resource_metadata="https://api.esentire.com/.well-known/oauth-protected-resource"
+    x_amzn_errortype: UnauthorizedException
+  observed_on:
+  - https://api.esentire.com/mcp/v1
+  - https://api.esentire.com/mcp/sse
+  - https://api.esentire.com/mcp/messages
+  method: probed
+coverage:
+  error_count: 2
+  note: >-
+    Only the two errors observable without credentials are recorded. Any 4xx/5xx the
+    API returns past authentication — validation, not-found, conflict, rate limit,
+    server error — is unknown and deliberately not guessed at. No error reference is
+    published on esentire.com.
+strengths:
+- The 401 is machine-actionable: it names the protected-resource metadata document in a standard WWW-Authenticate header, so a compliant MCP or OAuth client can discover the authorization server without human help.
+gaps:
+- The envelope is not RFC 9457 problem+json, so a generic agent error handler has to special-case it.
+- 403 MISSING_AUTHENTICATION_TOKEN is used where 404 is meant, which mis-signals the failure to any caller doing status-code-driven retry logic.
+- No published error reference, no documented error taxonomy, and no documented retry guidance.
+x-evidence:
+  fetched: '2026-08-12'
+  urls:
+  - url: https://api.esentire.com/
+    status: 403
+  - url: https://api.esentire.com/mcp/v1
+    status: 401
+  - url: https://api.esentire.com/openapi.json
+    status: 403

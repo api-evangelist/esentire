@@ -1,0 +1,104 @@
+generated: '2026-08-12'
+method: probed
+source: https://api.esentire.com/.well-known/oauth-authorization-server
+docs: null
+name: eSentire authentication profile
+description: >-
+  eSentire publishes no OpenAPI and no developer authentication page, so this
+  profile is built entirely from the two OAuth discovery documents the API host
+  serves anonymously plus the challenge headers the gateway returns. It is
+  therefore complete and accurate for the authorization layer, and silent on
+  anything the docs would normally add (token lifetimes, key rotation, service
+  accounts, IP allow-listing).
+schemes:
+- id: oauth2_okta
+  type: oauth2
+  in: header
+  header: Authorization
+  format: Bearer <access_token>
+  flows:
+    authorizationCode:
+      authorizationUrl: https://esentire.okta.com/oauth2/v1/authorize
+      tokenUrl: https://esentire.okta.com/oauth2/v1/token
+      refreshUrl: null
+      scopes:
+        openid: OpenID Connect subject identifier
+        profile: End-user profile claims
+        email: End-user email claim
+  pkce:
+    required: true
+    methods:
+    - S256
+  issuer: https://esentire.okta.com
+  identity_provider: Okta
+  applies_to:
+  - https://api.esentire.com/mcp
+  note: >-
+    The only grant type advertised is authorization_code. There is no
+    client_credentials flow in the metadata, which means machine-to-machine access
+    to this surface is not offered through the discovered authorization server —
+    every token is issued against a human Okta identity.
+dynamic_client_registration:
+  supported: true
+  spec: RFC 7591
+  endpoint: https://api.esentire.com/register
+  anonymous: true
+  observed_status: 201
+  token_endpoint_auth_method: none
+  note: >-
+    Registration is open without credentials — an anonymous POST returned 201 with
+    a client_id, `token_endpoint_auth_method: "none"` (public client) and scope
+    "openid profile email". This is the MCP client-onboarding pattern: an agent can
+    self-register, but the resulting token still requires a human eSentire login to
+    obtain, so registration alone grants no data access.
+discovery:
+  authorization_server_metadata:
+    url: https://api.esentire.com/.well-known/oauth-authorization-server
+    spec: RFC 8414
+    status: 200
+  protected_resource_metadata:
+    url: https://api.esentire.com/.well-known/oauth-protected-resource
+    spec: RFC 9728
+    status: 200
+    resource: https://api.esentire.com
+  challenge:
+    header: 'WWW-Authenticate: Bearer resource_metadata="https://api.esentire.com/.well-known/oauth-protected-resource"'
+    observed_on: https://api.esentire.com/mcp/v1
+    status: 401
+claims_supported:
+- ver
+- jti
+- iss
+- aud
+- iat
+- exp
+- cid
+- uid
+- scp
+- sub
+openid_connect:
+  end_session_endpoint: https://esentire.okta.com/oauth2/v1/logout
+  revocation_endpoint: https://esentire.okta.com/oauth2/v1/revoke
+  revocation_endpoint_auth_methods_supported:
+  - none
+  note: >-
+    api.esentire.com/.well-known/openid-configuration is NOT served (403). The
+    openid/profile/email scopes and the OIDC endpoints are advertised through the
+    OAuth 2.0 authorization-server metadata document instead.
+gaps:
+- No published authentication documentation. Nothing on esentire.com describes how a customer obtains or rotates a token.
+- No client_credentials or service-account flow is advertised, so unattended integration is not documented as possible.
+- Token lifetime, refresh behaviour, and rate/quota consequences of authentication are undocumented.
+x-evidence:
+  fetched: '2026-08-12'
+  urls:
+  - url: https://api.esentire.com/.well-known/oauth-authorization-server
+    status: 200
+  - url: https://api.esentire.com/.well-known/oauth-protected-resource
+    status: 200
+  - url: https://api.esentire.com/register
+    status: 201
+  - url: https://api.esentire.com/mcp/v1
+    status: 401
+  - url: https://api.esentire.com/.well-known/openid-configuration
+    status: 403

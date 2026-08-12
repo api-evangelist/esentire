@@ -1,0 +1,82 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.esentire.com/
+name: eSentire API lifecycle
+description: >-
+  What eSentire publishes about versioning, deprecation, availability and change
+  for its API surface. The answer is nothing. There is no developer portal, no
+  changelog, no status page, no deprecation policy and no published SLA reachable
+  without a customer contract. The only version signal is inferential — routing
+  behaviour on the API gateway implies a /v1 path segment. Service-level commitments
+  exist but live in the contracted services catalogue, not in a developer document.
+versioning:
+  scheme: path-segment (inferred)
+  current_version: v1
+  evidence: >-
+    https://api.esentire.com/mcp/v1 answers 401 (routed and protected) while
+    https://api.esentire.com/mcp/ answers 403 MISSING_AUTHENTICATION_TOKEN
+    (unrouted), which indicates a version segment is part of the path. No versioning
+    policy is published to confirm the scheme or the support window.
+  policy_published: false
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  evidence: No Sunset or Deprecation response header observed on any probed endpoint, and no deprecation or end-of-life policy page exists on esentire.com.
+  deprecated_operations: []
+  note: No OpenAPI exists from which to derive deprecated operations.
+status_page:
+  present: false
+  probed:
+  - url: https://status.esentire.com/
+    status: NXDOMAIN
+    note: Host does not resolve.
+  - url: https://www.esentire.com/status
+    status: 404
+  note: >-
+    No public status page. Service health for the Atlas / Insight platform is
+    presumably surfaced inside the authenticated portal at atlas.esentire.com, which
+    is not reachable without a customer login. No StatusPage pointer is emitted.
+changelog:
+  present: false
+  note: >-
+    No API changelog or release notes. The nearest published dated record is the
+    `updates[]` feed on the UpGuard trust page — but those entries are compliance
+    announcements (new SOC 2 reports, PCI attestations), not API changes, so no
+    ChangeLog pointer is emitted for them. eSentire's newsroom and blog cover product
+    announcements editorially without version detail.
+  probed:
+  - url: https://www.esentire.com/changelog
+    status: 404
+sla:
+  published: false
+  contractual: true
+  note: >-
+    eSentire markets a guaranteed 15-minute mean time to contain (MTTC) as a service
+    commitment, and a services catalogue is published at contracts.esentire.com. That
+    is a service SLA for MDR delivery, not an API availability or latency SLA, and
+    the catalogue describes service scope rather than uptime guarantees.
+  reference: https://contracts.esentire.com/esentire-services-catalogue
+support:
+  incident_hotline: 1-866-579-2200
+  security_contact: security@esentire.com
+  developer_support: null
+  note: No developer support channel, forum, or community exists.
+gaps:
+- No published versioning policy, so a customer integrating against /v1 has no stated support window.
+- No deprecation policy and no Sunset/Deprecation headers, so breaking changes arrive without a machine-readable warning.
+- No public status page, so integration health cannot be checked without logging in.
+- No API changelog, so there is no record of what changed or when.
+x-evidence:
+  fetched: '2026-08-12'
+  urls:
+  - url: https://status.esentire.com/
+    status: 0
+    note: DNS resolution failed (NXDOMAIN).
+  - url: https://api.esentire.com/mcp/v1
+    status: 401
+  - url: https://api.esentire.com/mcp/
+    status: 403
+  - url: https://contracts.esentire.com/
+    status: 200

@@ -1,0 +1,51 @@
+generated: '2026-08-12'
+method: probed
+source: https://api.esentire.com/.well-known/oauth-protected-resource
+docs: null
+name: eSentire OAuth scopes
+description: >-
+  The complete scope set eSentire advertises across both of its public OAuth
+  discovery documents. It is three OIDC identity scopes and nothing else — there
+  is no resource, product, or action scope published anywhere. That is a real
+  finding, not a gap in the probe: RFC 9728 protected-resource metadata is the
+  document a client is directed to by the 401 challenge in order to learn what to
+  ask for, and eSentire's names only openid, profile and email.
+authorization_server: https://esentire.okta.com
+resource: https://api.esentire.com
+scope_count: 3
+scopes:
+- name: openid
+  type: oidc
+  description: Request an ID token and the subject (sub) claim. Required to initiate the OpenID Connect flow.
+  source: https://api.esentire.com/.well-known/oauth-authorization-server
+- name: profile
+  type: oidc
+  description: End-user profile claims from the Okta identity.
+  source: https://api.esentire.com/.well-known/oauth-authorization-server
+- name: email
+  type: oidc
+  description: End-user email claim from the Okta identity.
+  source: https://api.esentire.com/.well-known/oauth-authorization-server
+resource_scopes: []
+analysis:
+  granular_authorization: false
+  note: >-
+    No least-privilege surface is exposed to a client. An agent connecting to the
+    eSentire MCP server cannot request read-only access, cannot scope itself to one
+    product (MDR vs DFIR vs CTEM), and cannot narrow to one class of action —
+    because no such scopes are advertised. Whatever authorization actually governs
+    the MCP tools is enforced behind the token, invisibly to the client. For an
+    agent surface in a security product, where tools can plausibly take containment
+    actions on customer infrastructure, publishing an action-scoped authorization
+    model is the single highest-value change available here.
+gaps:
+- No scope or permission reference page is published on esentire.com.
+- No resource-level or action-level scopes are advertised in either discovery document.
+- Scope-to-tool mapping cannot be established because the MCP tool list is auth-gated.
+x-evidence:
+  fetched: '2026-08-12'
+  urls:
+  - url: https://api.esentire.com/.well-known/oauth-protected-resource
+    status: 200
+  - url: https://api.esentire.com/.well-known/oauth-authorization-server
+    status: 200
