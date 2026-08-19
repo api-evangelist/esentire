@@ -15,7 +15,7 @@ url: https://raw.githubusercontent.com/api-evangelist/esentire/refs/heads/main/a
 image: https://storage.googleapis.com/vendor-risk-production-default-bucket/eSentire-Navy-1000x1000.png_b7cac947-6768-4bd5-9fa7-98997a9e13f7
 x-type: company
 x-source: harvest:secondary-market
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-08-12'
 modified: '2026-08-12'
 tags:
