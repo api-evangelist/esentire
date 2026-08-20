@@ -25,6 +25,17 @@ tags:
 - Managed Detection and Response
 - Threat Intelligence
 - Incident Response
+- MCP
+- Agents
+- Authentication
+- Software-as-a-Service
+tags_raw:
+- Company
+- Security
+- Cybersecurity
+- Managed Detection and Response
+- Threat Intelligence
+- Incident Response
 - Model Context Protocol
 - Agents
 - OAuth
@@ -43,6 +54,10 @@ apis:
   humanURL: https://www.esentire.com/what-we-do/security-operations-platform
   baseURL: https://api.esentire.com/mcp
   tags:
+  - MCP
+  - Agents
+  - Security
+  tags_raw:
   - Model Context Protocol
   - Agents
   - Security
