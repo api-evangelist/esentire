@@ -12,6 +12,17 @@ description: 'eSentire, Inc. is a Waterloo, Ontario-headquartered cybersecurity 
   There is no public OpenAPI, GraphQL schema, or developer portal — the API and the
   Atlas/Insight portal are reachable only by contracted customers and partners.'
 url: https://raw.githubusercontent.com/api-evangelist/esentire/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://storage.googleapis.com/vendor-risk-production-default-bucket/eSentire-Navy-1000x1000.png_b7cac947-6768-4bd5-9fa7-98997a9e13f7
 x-type: company
 x-source: harvest:secondary-market
