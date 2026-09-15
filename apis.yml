@@ -1,16 +1,14 @@
 aid: esentire
 name: eSentire
-description: 'eSentire, Inc. is a Waterloo, Ontario-headquartered cybersecurity company
-  and, in its own words, "the Authority in Managed Detection and Response (MDR)".
-  Founded in 2001, it protects 2,000+ organizations across 80+ countries and 35 industries
-  with 24/7/365 Managed Detection and Response, Digital Forensics and Incident Response
-  (DFIR), and Continuous Threat Exposure Management (CTEM), delivered from its own
-  Atlas Security Operations Platform and staffed Security Operations Centers. Its
-  public machine-readable surface is narrow but real: an llms.txt at the marketing
-  host, an OAuth 2.0 authorization-server and protected-resource metadata pair at
-  api.esentire.com, and an authorization-gated MCP server behind that same host.
-  There is no public OpenAPI, GraphQL schema, or developer portal — the API and the
-  Atlas/Insight portal are reachable only by contracted customers and partners.'
+description: 'eSentire, Inc. is a Waterloo, Ontario-headquartered cybersecurity company and, in its own
+  words, "the Authority in Managed Detection and Response (MDR)". Founded in 2001, it protects 2,000+
+  organizations across 80+ countries and 35 industries with 24/7/365 Managed Detection and Response, Digital
+  Forensics and Incident Response (DFIR), and Continuous Threat Exposure Management (CTEM), delivered
+  from its own Atlas Security Operations Platform and staffed Security Operations Centers. Its public
+  machine-readable surface is narrow but real: an llms.txt at the marketing host, an OAuth 2.0 authorization-server
+  and protected-resource metadata pair at api.esentire.com, and an authorization-gated MCP server behind
+  that same host. There is no public OpenAPI, GraphQL schema, or developer portal — the API and the Atlas/Insight
+  portal are reachable only by contracted customers and partners.'
 url: https://raw.githubusercontent.com/api-evangelist/esentire/refs/heads/main/apis.yml
 deliveryModel:
   model: saas
@@ -67,15 +65,14 @@ tags_raw:
 - OAuth
 - SaaS
 apis:
-- aid: esentire-mcp
+- aid: esentire:esentire-mcp
   name: eSentire MCP Server
-  description: 'An authorization-gated Model Context Protocol server operated by eSentire
-    on its own API host. Every path under https://api.esentire.com/mcp/ answers 401
-    UNAUTHORIZED with an RFC 9728 challenge (`WWW-Authenticate: Bearer resource_metadata="https://api.esentire.com/.well-known/oauth-protected-resource"`),
-    while paths outside that prefix answer 403 MISSING_AUTHENTICATION_TOKEN — which
-    is how the route family was confirmed to exist. Authorization is Okta-backed
-    OAuth 2.0 authorization code + PKCE, with anonymous RFC 7591 dynamic client
-    registration live at https://api.esentire.com/register. The tool list is not
+  description: 'An authorization-gated Model Context Protocol server operated by eSentire on its own API
+    host. Every path under https://api.esentire.com/mcp/ answers 401 UNAUTHORIZED with an RFC 9728 challenge
+    (`WWW-Authenticate: Bearer resource_metadata="https://api.esentire.com/.well-known/oauth-protected-resource"`),
+    while paths outside that prefix answer 403 MISSING_AUTHENTICATION_TOKEN — which is how the route family
+    was confirmed to exist. Authorization is Okta-backed OAuth 2.0 authorization code + PKCE, with anonymous
+    RFC 7591 dynamic client registration live at https://api.esentire.com/register. The tool list is not
     readable without a customer token, so no tool inventory is recorded here.'
   humanURL: https://www.esentire.com/what-we-do/security-operations-platform
   baseURL: https://api.esentire.com/mcp
