@@ -33,9 +33,9 @@ edges:
   evidence: https://azuremarketplace.microsoft.com/en-us/marketplace/apps?search=eSentire%20Inc.
   listing_count: 3
   apps:
+  - eSentire MDR with Microsoft Sentinel
   - eSentire MDR with Microsoft 365 Defender (MXDR)
   - eSentire MDR with Microsoft 365 Defender and Microsoft Sentinel (MXDR)
-  - eSentire MDR with Microsoft Sentinel
   seller_name: eSentire Inc.
   detected_by: sweep-cloud-marketplaces.py
   detected: '2026-10-13'
