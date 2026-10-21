@@ -1,0 +1,192 @@
+generated: '2026-10-20'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 14
+  own: 8
+  other_domain: 4
+  platform: 2
+  roles:
+  - api
+  - docs
+  - identity
+  - other
+  - partner
+  - source
+  - support
+  - website
+hosts:
+- host: api.esentire.com
+  found_by:
+  - apis[]
+  - probed
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types: []
+  serves:
+  - api
+  - api-gateway
+  vendor: aws-api-gateway
+  registrable_domain: esentire.com
+  role: api
+  relation: own
+- host: api.okta.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: okta.com
+  role: api
+  relation: other-domain
+- host: atlas.esentire.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  types:
+  - Login
+  serves: []
+  registrable_domain: esentire.com
+  role: identity
+  relation: own
+- host: esentire.okta.com
+  found_by:
+  - probed
+  - site-links
+  - vendor-detect
+  types: []
+  serves:
+  - identity
+  vendor: okta
+  registrable_domain: okta.com
+  role: other
+  relation: other-domain
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrganization
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: help.okta.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - docs-index
+  - vendor-detect
+  types:
+  - Documentation
+  serves:
+  - docs
+  - cdn
+  - hosting
+  vendor: cloudfront
+  registrable_domain: okta.com
+  role: docs
+  relation: other-domain
+- host: mdr.esentire.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: esentire.com
+  role: other
+  relation: own
+- host: partner.esentire.com
+  found_by:
+  - probed
+  - site-links
+  - namespace-probe
+  - well-known
+  types: []
+  serves: []
+  status: 200
+  registrable_domain: esentire.com
+  role: partner
+  relation: own
+- host: partners.esentire.com
+  found_by:
+  - probed
+  - site-links
+  - namespace-probe
+  - well-known
+  types: []
+  serves: []
+  status: 200
+  registrable_domain: esentire.com
+  role: partner
+  relation: own
+- host: shop.esentire.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: esentire.com
+  role: other
+  relation: own
+- host: support.okta.com
+  found_by:
+  - probed
+  - site-links
+  types: []
+  serves: []
+  registrable_domain: okta.com
+  role: support
+  relation: other-domain
+- host: trust.esentire.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  types:
+  - TrustCenter
+  serves: []
+  registrable_domain: esentire.com
+  role: other
+  relation: own
+- host: www.esentire.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - docs-index
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Newsroom
+  - Leadership
+  - Website
+  - Blog
+  - SignUp
+  - TermsOfService
+  - PrivacyPolicy
+  serves:
+  - docs
+  - cdn
+  vendor: cloudflare
+  registrable_domain: esentire.com
+  role: website
+  relation: own
+- host: www.hiive.com
+  found_by:
+  - pointer
+  types:
+  - SecondaryMarket
+  serves: []
+  registrable_domain: hiive.com
+  role: other
+  relation: platform

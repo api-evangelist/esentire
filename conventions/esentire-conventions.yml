@@ -2,14 +2,12 @@ generated: '2026-08-12'
 method: probed
 source: https://api.esentire.com/
 name: eSentire API conventions
-description: >-
-  Cross-cutting runtime semantics for the one eSentire API surface reachable from
-  the public internet. eSentire publishes no API style guide, no developer portal,
-  and no OpenAPI, so everything here is either read from the OAuth discovery
-  documents it does serve or observed directly on the wire. Most rows are honestly
-  "not published" — that is the finding. An agent integrating with the eSentire MCP
-  server past the authorization boundary has no published contract governing
-  retries, idempotency, pagination, or versioning.
+description: Cross-cutting runtime semantics for the one eSentire API surface reachable from the public
+  internet. eSentire publishes no API style guide, no developer portal, and no OpenAPI, so everything
+  here is either read from the OAuth discovery documents it does serve or observed directly on the wire.
+  Most rows are honestly "not published" — that is the finding. An agent integrating with the eSentire
+  MCP server past the authorization boundary has no published contract governing retries, idempotency,
+  pagination, or versioning.
 authentication:
   style: OAuth 2.0 Bearer token (authorization code + PKCE, Okta-issued)
   header: Authorization
@@ -20,22 +18,19 @@ idempotency:
   supported: unknown
   header: null
   published: false
-  note: >-
-    No idempotency key header, no retry-safety statement, and no documentation of
-    it anywhere on eSentire's public surface. Deliberately NOT asserted: this repo
-    emits no `Idempotency` pointer, because there is no evidence eSentire supports
-    it. For a security API whose tools may take containment actions, an undocumented
-    retry contract is a material gap.
+  note: 'No idempotency key header, no retry-safety statement, and no documentation of it anywhere on
+    eSentire''s public surface. Deliberately NOT asserted: this repo emits no `Idempotency` pointer, because
+    there is no evidence eSentire supports it. For a security API whose tools may take containment actions,
+    an undocumented retry contract is a material gap.'
+  coverage: none
 pagination:
   style: unknown
   published: false
   note: No paginated response is reachable without a token, and none is documented.
 versioning:
   style: path-segment (observed)
-  evidence: >-
-    /mcp/v1 answers 401 (routed) while /mcp/ answers 403 (unrouted), which indicates
-    a version segment in the path. This is inference from routing behaviour, not a
-    published policy.
+  evidence: /mcp/v1 answers 401 (routed) while /mcp/ answers 403 (unrouted), which indicates a version
+    segment in the path. This is inference from routing behaviour, not a published policy.
   published_policy: false
   see: lifecycle/esentire-lifecycle.yml
 error_envelope:
@@ -46,18 +41,14 @@ error_envelope:
 rate_limit_signaling:
   headers_observed: []
   published: false
-  note: >-
-    No RateLimit-*, X-RateLimit-* or Retry-After header appeared on any observed
-    response. See rate-limits/esentire-rate-limits.yml.
+  note: No RateLimit-*, X-RateLimit-* or Retry-After header appeared on any observed response. See rate-limits/esentire-rate-limits.yml.
 request_tracing:
   headers:
   - x-amzn-requestid
   - x-amz-apigw-id
   first_party: false
-  note: >-
-    AWS API Gateway infrastructure identifiers, not an eSentire-branded correlation
-    id, and not documented as one. A caller can quote them to support but eSentire
-    does not say to.
+  note: AWS API Gateway infrastructure identifiers, not an eSentire-branded correlation id, and not documented
+    as one. A caller can quote them to support but eSentire does not say to.
 transport:
   tls: HTTP/2 over TLS
   hsts: 'strict-transport-security: max-age=31536000 ; includeSubDomains'
@@ -65,9 +56,8 @@ transport:
 content_negotiation:
   request: application/json
   response: application/json
-  streaming: >-
-    text/event-stream is accepted on the MCP endpoint per the Streamable HTTP
-    transport, but cannot be confirmed without a token.
+  streaming: text/event-stream is accepted on the MCP endpoint per the Streamable HTTP transport, but
+    cannot be confirmed without a token.
 field_expansion:
   supported: unknown
   published: false

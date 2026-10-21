@@ -3,25 +3,93 @@ method: searched
 source: https://trust.esentire.com/api/trustpage/public/v1/
 name: eSentire Trust Center
 url: https://trust.esentire.com/
-platform: UpGuard Trust Page
-description: >-
-  eSentire runs a published UpGuard trust page at trust.esentire.com. The page
-  itself renders client-side and returns an HTML shell to any non-browser fetch,
-  but the data behind it is served as public JSON at
-  https://trust.esentire.com/api/trustpage/public/v1/ with no credentials, and
-  that document is the source for everything recorded below. It is the richest
-  machine-readable artifact eSentire publishes — considerably richer than anything
-  on its own developer surface.
-contact:
+description: eSentire runs a published UpGuard trust page at trust.esentire.com. The page itself renders
+  client-side and returns an HTML shell to any non-browser fetch, but the data behind it is served as
+  public JSON at https://trust.esentire.com/api/trustpage/public/v1/ with no credentials, and that document
+  is the source for everything recorded below. It is the richest machine-readable artifact eSentire publishes
+  — considerably richer than anything on its own developer surface.
+certifications:
+- SOC 2 Type II
+- ISO/IEC 27001:2022
+- ISO/IEC 27001:2013
+- PCI DSS 4.0.1
+- HIPAA
+- GDPR
+- CCPA
+- PIPEDA
+- DORA (EU Digital Operational Resilience Act)
+- CIS Controls v8.1
+- Shared Assessments SIG
+other_attestations:
+- name: Penetration Test - Attestation 2025
+  note: Independent internal/external penetration test attestation.
+  updated: '2025-12-17'
+- name: Cyber Insurance Attestation
+  updated: '2025-10-17'
+- name: eSentire & Regulation S-P
+  note: Position statement on the U.S. SEC Regulation S-P amendments.
+  updated: '2025-11-25'
+- name: eSentire Statement on Criminal Justice Information Systems (CJIS) Compliance
+  updated: '2025-04-21'
+- name: Data Residency Matrix
+  note: Data elements stored/processed/transmitted and the third-party SaaS/PaaS/CSP subprocessors involved.
+  updated: '2025-05-02'
+- name: eSentire Description of Security Controls
+  updated: '2025-04-08'
+- name: Modern Slavery Statement
+  updated: '2025-04-25'
+- name: Klue Security Incident
+  note: Published statement on a third-party incident affecting an integration partner.
+  updated: '2026-06-26'
+scores:
+  upguard_public_score: 867
+  upguard_industry_average: 726
+  note: UpGuard's own security rating of eSentire, published on the trust page. Not an API Evangelist
+    measure.
+evidence_pages:
+- category: privacy
+  url: https://esentire.com/privacy-policy
+- category: tos
+  url: https://esentire.com/terms-and-conditions
+subprocessors_published: false
+gaps:
+- The trust page is client-side rendered; a human or agent fetching trust.esentire.com without JavaScript
+  receives a 1KB HTML shell with no content.
+- The underlying public JSON is undocumented and unversioned — it is UpGuard's internal endpoint, not
+  a contract eSentire offers.
+- Certification documents are request-gated rather than downloadable.
+x-evidence:
+  fetched: '2026-08-12'
+  urls:
+  - url: https://trust.esentire.com/
+    status: 200
+    note: HTML shell, 1083 bytes, no content without JS.
+  - url: https://trust.esentire.com/api/trustpage/public/v1/
+    status: 200
+    content_type: application/json
+    size: 8543
+  - url: https://www.esentire.com/legal/compliance
+    status: 200
+x-contact:
   name: Office of the CISO
   role: Governance Risk and Compliance Team
   email: security@esentire.com
-certifications:
+contact: security@esentire.com
+x-platform: UpGuard Trust Page
+platform: self-hosted-or-unknown
+x-document_access:
+  gated: true
+  note: The trust page indexes the documents publicly, but downloading a SOC 2 report or the ISO Statement
+    of Applicability requires requesting access through UpGuard. The index is public; the evidence itself
+    is not.
+x-certifications-detail:
 - id: SOC_2_Type_II
   name: SOC 2 Type II
-  scope: Managed Detection and Response Services; Digital Forensics & Incident Response Services (separate reports)
-  period: '2024-12-01 to 2025-11-30'
-  evidence: System and Organization Controls Report SOC 2 Type 2 — MDR Services; and — Digital Forensics Incident Response Services
+  scope: Managed Detection and Response Services; Digital Forensics & Incident Response Services (separate
+    reports)
+  period: 2024-12-01 to 2025-11-30
+  evidence: System and Organization Controls Report SOC 2 Type 2 — MDR Services; and — Digital Forensics
+    Incident Response Services
   bridge_letter: SOC2 Bridge Letter - February 2026
   updated: '2026-02-27'
 - id: ISO_27001
@@ -55,56 +123,3 @@ certifications:
 - id: SIG
   name: Shared Assessments SIG
   evidence: 2025 SigLite questionnaire, updated 2025-04-09
-other_attestations:
-- name: Penetration Test - Attestation 2025
-  note: Independent internal/external penetration test attestation.
-  updated: '2025-12-17'
-- name: Cyber Insurance Attestation
-  updated: '2025-10-17'
-- name: eSentire & Regulation S-P
-  note: Position statement on the U.S. SEC Regulation S-P amendments.
-  updated: '2025-11-25'
-- name: eSentire Statement on Criminal Justice Information Systems (CJIS) Compliance
-  updated: '2025-04-21'
-- name: Data Residency Matrix
-  note: Data elements stored/processed/transmitted and the third-party SaaS/PaaS/CSP subprocessors involved.
-  updated: '2025-05-02'
-- name: eSentire Description of Security Controls
-  updated: '2025-04-08'
-- name: Modern Slavery Statement
-  updated: '2025-04-25'
-- name: Klue Security Incident
-  note: Published statement on a third-party incident affecting an integration partner.
-  updated: '2026-06-26'
-document_access:
-  gated: true
-  note: >-
-    The trust page indexes the documents publicly, but downloading a SOC 2 report or
-    the ISO Statement of Applicability requires requesting access through UpGuard.
-    The index is public; the evidence itself is not.
-scores:
-  upguard_public_score: 867
-  upguard_industry_average: 726
-  note: UpGuard's own security rating of eSentire, published on the trust page. Not an API Evangelist measure.
-evidence_pages:
-- category: privacy
-  url: https://esentire.com/privacy-policy
-- category: tos
-  url: https://esentire.com/terms-and-conditions
-subprocessors_published: false
-gaps:
-- The trust page is client-side rendered; a human or agent fetching trust.esentire.com without JavaScript receives a 1KB HTML shell with no content.
-- The underlying public JSON is undocumented and unversioned — it is UpGuard's internal endpoint, not a contract eSentire offers.
-- Certification documents are request-gated rather than downloadable.
-x-evidence:
-  fetched: '2026-08-12'
-  urls:
-  - url: https://trust.esentire.com/
-    status: 200
-    note: HTML shell, 1083 bytes, no content without JS.
-  - url: https://trust.esentire.com/api/trustpage/public/v1/
-    status: 200
-    content_type: application/json
-    size: 8543
-  - url: https://www.esentire.com/legal/compliance
-    status: 200

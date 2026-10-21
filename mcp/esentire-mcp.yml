@@ -93,3 +93,5 @@ deployment:
   verified: searched
   checked: '2026-08-12'
   source: catalog MCP census
+  endpoint: https://api.esentire.com/mcp
+  auth: oauth
